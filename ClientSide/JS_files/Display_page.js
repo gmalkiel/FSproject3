@@ -1,3 +1,5 @@
+import FAJAX from "../JS_files/network";
+let user = null;
 const app = {
     pages: [],
     show: new Event('show'),
@@ -24,7 +26,8 @@ const app = {
             if(signinFunction()){
                 window.location.href='#data';
                 var fajax=new FAJAX();
-                fajax.create_request("GETCONTACTS");
+                var userNJason = {username:user};
+                fajax.create_request("GETCONTACTS", JSON.stringify(userNJason));
                 fajax.send(printContacts);
             }
             else{
@@ -35,7 +38,8 @@ const app = {
             if(signupFunction()){
                 window.location.href='#data';
                 var fajax=new FAJAX();
-                fajax.create_request("GETCONTACTS");
+                var userNJason = {username:user};
+                fajax.create_request("GETCONTACTS", JSON.stringify(userNJason));
                 fajax.send(printContacts);
             }
             else{
@@ -165,25 +169,25 @@ function signupFunction() {
         document.getElementById('result').innerHTML = 'Signup successful!';
         // Call the function to save data to local storage
         saveToLocalStorage(username, dob, email, phone, password);
-        // Hide the first button
+        user = username;
     }
     return flag;
 }
 function saveToLocalStorage(username, dob, email, phone, password) {
-    var un = username;
+    /*var un = username;
     var udob = dob;
     var uem = email;
     var uph = phone;
-    var upas = password;
+    var upas = password;*/
     var UserData = {
-        UserPassword: upas,
-        UserNamen: un,
-        DateOfBirth: udob,
-        UserEmail: uem,
-        UserPhone: uph
+        UserPassword: password,
+        UserName: username,
+        DateOfBirth: dob,
+        UserEmail: email,
+        UserPhone: phone
     };
     var fajax=new FAJAX();
-    fajax.create_request("POSTUSER",[UserData]);
+    fajax.create_request("POSTUSER",JSON.stringify(UserData));
     fajax.send();
 }
 
@@ -209,9 +213,9 @@ function signinFunction() {
     userNameMessage.innerHTML = '';
 
     // Get stored data from local storage
-    reqData = [usernameInput.value]
+    var dataJason = {UserName:usernameInput.value}
     var fajax=new FAJAX();
-    fajax.create_request("GETUSER",reqData);
+    fajax.create_request("GETUSER",JSON.stringify(dataJason));
     fajax.send();
     //const storedPassword = localStorage.getItem(passwordInput.value);
 
@@ -221,6 +225,7 @@ function signinFunction() {
 
         // Check if the entered username and password match
         if (userd.UserNamen === usernameInput.value) {
+            user = username;
             //userd.LastSignIn = new Date().toISOString();
             //var updatedData = JSON.stringify(userd);
             //localStorage.setItem(passwordInput.value, updatedData);
@@ -277,15 +282,16 @@ function printContacts(contactList) {
 
         // הוספת אירוע לחיצה למחיקת איש הקשר
         deleteButton.addEventListener('click', () => {
-            const phoneNumber = contact.phone;
-            deleteContact(phoneNumber);
+            //const phoneNumber = contact.phone;
+            deleteContact(contact);
         });
 
         // הוספת אירוע לחיצה למעבר לעמוד תצוגת איש הקשר
         const contactName = li.querySelector('.contactName');
         contactName.addEventListener('click', () => {
             var fajax=new FAJAX();
-            fajax.create_request("GETCONTACT", [contactName]);
+            var dataJason = {UserName:user,contactName:contactName}
+            fajax.create_request("GETCONTACT", JSON.stringify(dataJason));
             fajax.send();
             showContactDetails(fajax.getResponse);
         });
@@ -294,9 +300,10 @@ function printContacts(contactList) {
 
 
 // פונקציה למחיקת איש קשר מהרשימה
-function deleteContact(phoneNumber) {
+function deleteContact(contact) {
     var fajax=new FAJAX();
-    fajax.create_request("DELETE", [phoneNumber]);
+    var dataJason = {UserName:user,contact:contact}
+    fajax.create_request("DELETE", JSON.stringify(dataJason));
     fajax.send(printContacts);
     /*const index = contacts.findIndex(contact => contact.phone === phoneNumber);
     if (index !== -1) {
@@ -331,7 +338,8 @@ function showContactDetails(contact) {
     editButton.addEventListener('click', () => {
         editContact(contact);
         var fajax=new FAJAX();
-        fajax.create_request("PUT", [contact]);
+        var dataJason = {UserName:user,contact:contact}
+        fajax.create_request("PUT", JSON.stringify(dataJason));
         fajax.send(printContacts);
     });
 
@@ -348,7 +356,8 @@ function showContactDetails(contact) {
                 if (field.id === 'contactEmail') contact.email = newValue;
             }
             var fajax=new FAJAX();
-            fajax.create_request("PUT", [contact]);
+            var dataJason = {UserName:user,contact:contact}
+            fajax.create_request("PUT", JSON.stringify(dataJason));
             fajax.send(printContacts);
         });
     });
