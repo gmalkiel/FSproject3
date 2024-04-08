@@ -5,21 +5,21 @@ class ContactsServer{
         this.db= new ContactsDB();
     }
 
-    processRequest(request,username,data=null){
+    processRequest(request, data=null){
         if(request=== "GETCONTACTS"){
-            return this.getAll(username);
+            return this.getAll(data);
         }
         else if(request=== "GETCONTACT"){
-            return this.get(username,data);
+            return this.get(data);
         }
         else if(request=== "POST"){
-            return this.post(username,data);
+            return this.post(data);
         }
         else if(request=== "PUT"){
-            return this.put(username,data);
+            return this.put(data);
         }
         else if(request=== "DELETE"){
-            return this.del(username,data);
+            return this.del(data);
         }
         else{
             alert("wrong request : "+ request)
@@ -27,19 +27,20 @@ class ContactsServer{
         }  
     }
 
-    get(username,contactname) {
+    get(data) {
         return this.db.get(username,contactname);
     }
-    getAll(username) {
-        return this.db.getAll(username);
+    getAll(data) {
+        let user= JSON.parse(data);
+        return this.db.getAll(user.username);
     }
-    post(username, contact){
+    post(data){
         return this.db.post(username, contact);
     }
-    put(username, contact) {
+    put(data) {
         return this.db.put(username, contact);
     }
-    del(username,contactname) {
+    del(data) {
         return this.db.delete(username,contactname);
     }     
 }
