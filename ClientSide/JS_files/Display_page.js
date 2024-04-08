@@ -1,4 +1,4 @@
-import FAJAX from "../JS_files/network";
+import FAJAX from "../JS_files/fAJAX";
 let user = null;
 const app = {
     pages: [],
@@ -45,6 +45,10 @@ const app = {
             else{
                 return;
             }
+        }
+        if(myPage == "addcontact"){
+            addContact();
+            window.location.href='#data';
         }
         document.querySelector('.active').classList.remove('active');
         document.getElementById(currentPage).classList.add('active');
@@ -374,4 +378,15 @@ function editContact(contact) {
         contact.phone = newPhone;
         contact.email = newEmail;
     }
+}
+
+function addContact() {
+    const cname = document.getElementById('name').value;
+    const cemail = document.getElementById('email').value;
+    const cphone = document.getElementById('phone').value;
+    var fajax=new FAJAX();
+    var contact = {name:cname,phone:cphone,email:cemail};
+    var dataJason = {UserName:user,contact:contact};
+    fajax.create_request("PUT", JSON.stringify(dataJason));
+    fajax.send(printContacts);
 }

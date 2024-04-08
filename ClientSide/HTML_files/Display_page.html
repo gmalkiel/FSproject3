@@ -72,10 +72,28 @@
             <h1>YOUR LIST</h1>
             <ul id="contactList"></ul>
 
+            <button onclick="window.location.href='#'" data-target="addcontact" class="nav-link">New Contact</button>
+        </div>
+        <div class="page" id="addcontact">
+            <h1>ADD CONTACT</h1>
+            <form id="AddContactForm">
+                <p>
+                    <input type="text" id="username" name="username" placeholder="name" required>
+                </p>
+                <p>
+                    <input type="email" id="email" name="email" placeholder="email" required>
+                </p>
+                <p>
+                    <input type="tel" id="phone" name="phone" placeholder="phone" required>
+                </p>
+                <input type="submit" data-target="data" class="nav-link" value="Add">
+            </form>
+
         </div>
     </main>
-    <script type="module" src="../JS_files/Display_page.js"></script>
-    <script type="module" src="../JS_files/fAJAX.js"></script>
-    <script type="module" src="/FSproject3/ServerSide/network.js"></script>
+    <script src="../JS_files/Display_page.js"></script>
+    <!--<script src="../JS_files/fAJAX.js"></script>
+    <script src="/FSproject3/ServerSide/network.js"></script>
+    <script type="module" src="../JS_files/fAJAX.js"></script>-->
 
 </body>
