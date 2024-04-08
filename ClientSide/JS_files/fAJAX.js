@@ -43,4 +43,4 @@ class FAJAX{
 }
 
 
-export default FAJAX; 
+module.exports= FAJAX; 
