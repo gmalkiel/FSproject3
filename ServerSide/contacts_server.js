@@ -6,10 +6,10 @@ class ContactsServer{
     }
 
     processRequest(request,username,data=null){
-        if(request=== "GETALL"){
+        if(request=== "GETCONTACTS"){
             return this.getAll(username);
         }
-        else if(request=== "GET"){
+        else if(request=== "GETCONTACT"){
             return this.get(username,data);
         }
         else if(request=== "POST"){

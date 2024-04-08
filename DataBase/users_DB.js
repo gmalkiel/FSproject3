@@ -4,6 +4,10 @@ class UsersDB{
         this.USERS_KEY = "users";
     }
 
+    getUsers() {
+        return getUsersFromLocalStorage();
+    }
+
     getUser(username) {
         const users = getUsersFromLocalStorage();
         return users.find(user => user.username === username);
