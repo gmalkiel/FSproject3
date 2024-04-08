@@ -23,6 +23,9 @@ const app = {
         if (myPage === "signin") {
             if(signinFunction()){
                 window.location.href='#data';
+                var fajax=new FAJAX();
+                fajax.create_request("GETCONTACTS");
+                fajax.send(printContacts);
             }
             else{
                 return;
@@ -31,6 +34,9 @@ const app = {
         else if (myPage === "signup" && currentPage ==="data") {
             if(signupFunction()){
                 window.location.href='#data';
+                var fajax=new FAJAX();
+                fajax.create_request("GETCONTACTS");
+                fajax.send(printContacts);
             }
             else{
                 return;
@@ -86,10 +92,11 @@ function signupFunction() {
     confirmPasswordMessage.innerHTML = '';
 
     // Get stored data from local storage
-    /*var fajax=new FAJAX();
+    var fajax=new FAJAX();
     fajax.create_request("GETUSERS");
-    fajax.send();*/
-    const storedDataArray = Object.values(localStorage);
+    fajax.send();
+    const storedDataArray = fajax.getResponse;
+    //const storedDataArray = Object.values(localStorage);
     const storeData = localStorage.getItem(password);
 
     const today = new Date();
@@ -202,7 +209,7 @@ function signinFunction() {
     userNameMessage.innerHTML = '';
 
     // Get stored data from local storage
-    reqData = [usernameInput.value, passwordInput.value]
+    reqData = [usernameInput.value]
     var fajax=new FAJAX();
     fajax.create_request("GETUSER",reqData);
     fajax.send();
@@ -253,4 +260,109 @@ function signinFunction() {
     }
 }
 
+// פונקציה להדפסת רשימת אנשי הקשר לעמוד HTML
+function printContacts(contactList) {
+    const contactListElement = document.getElementById('contactList');
+    // ניקוון רשימת הקשרים לפני ההדפסה
+    contactListElement.innerHTML = '';
 
+    // לכל איש קשר ברשימה, הדפסת שם וכפתור מחיקה
+    contactList.forEach(contact => {
+        const li = document.createElement('li');
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        li.innerHTML = `<span class="contactName">${contact.name}</span>`;
+        li.appendChild(deleteButton);
+        contactListElement.appendChild(li);
+
+        // הוספת אירוע לחיצה למחיקת איש הקשר
+        deleteButton.addEventListener('click', () => {
+            const phoneNumber = contact.phone;
+            deleteContact(phoneNumber);
+        });
+
+        // הוספת אירוע לחיצה למעבר לעמוד תצוגת איש הקשר
+        const contactName = li.querySelector('.contactName');
+        contactName.addEventListener('click', () => {
+            var fajax=new FAJAX();
+            fajax.create_request("GETCONTACT", [contactName]);
+            fajax.send();
+            showContactDetails(fajax.getResponse);
+        });
+    });
+}
+
+
+// פונקציה למחיקת איש קשר מהרשימה
+function deleteContact(phoneNumber) {
+    var fajax=new FAJAX();
+    fajax.create_request("DELETE", [phoneNumber]);
+    fajax.send(printContacts);
+    /*const index = contacts.findIndex(contact => contact.phone === phoneNumber);
+    if (index !== -1) {
+        contacts.splice(index, 1);
+        printContacts(contacts); // רענון הרשימה לאחר המחיקה
+    }*/
+}
+
+// פונקציה להצגת חלון מוקטן עם פרטי איש קשר ואפשרות לעריכתם
+function showContactDetails(contact) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Name: <span id="contactName">${contact.name}</span></p>
+            <p>Phone: <span id="contactPhone">${contact.phone}</span></p>
+            <p>Email: <span id="contactEmail">${contact.email}</span></p>
+            <button id="editButton">Edit</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // הוספת אירוע לחיצה לסגירת החלון המוקטן
+    const closeButton = modal.querySelector('.close');
+    closeButton.addEventListener('click', () => {
+        modal.remove();
+    });
+
+    // הוספת אירוע לחיצה לכפתור עריכה
+    const editButton = modal.querySelector('#editButton');
+    editButton.addEventListener('click', () => {
+        editContact(contact);
+        var fajax=new FAJAX();
+        fajax.create_request("PUT", [contact]);
+        fajax.send(printContacts);
+    });
+
+    // הוספת אירוע ללחיצה על כל שדה כדי לאפשר עריכה ישירה
+    const contactFields = modal.querySelectorAll('.modal-content p span');
+    contactFields.forEach(field => {
+        field.addEventListener('click', () => {
+            const newValue = prompt(`Enter new ${field.id}:`, field.innerText);
+            if (newValue) {
+                field.innerText = newValue;
+                // עדכון נתוני האיש קשר ברשימה
+                if (field.id === 'contactName') contact.name = newValue;
+                if (field.id === 'contactPhone') contact.phone = newValue;
+                if (field.id === 'contactEmail') contact.email = newValue;
+            }
+            var fajax=new FAJAX();
+            fajax.create_request("PUT", [contact]);
+            fajax.send(printContacts);
+        });
+    });
+}
+
+// פונקציה לעריכת איש קשר
+function editContact(contact) {
+    const newName = prompt('Enter new name:', contact.name);
+    const newPhone = prompt('Enter new phone number:', contact.phone);
+    const newEmail = prompt('Enter new email:', contact.email);
+
+    if (newName && newPhone && newEmail) {
+        contact.name = newName;
+        contact.phone = newPhone;
+        contact.email = newEmail;
+    }
+}
