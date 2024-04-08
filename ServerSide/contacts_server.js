@@ -28,20 +28,24 @@ class ContactsServer{
     }
 
     get(data) {
-        return this.db.get(username,contactname);
+        let dataobj= JSON.parse(data);
+        return this.db.get(dataobj.username,dataobj.phone);
     }
     getAll(data) {
         let user= JSON.parse(data);
         return this.db.getAll(user.username);
     }
     post(data){
-        return this.db.post(username, contact);
+        let dataobj= JSON.parse(data);
+        return this.db.post(dataobj.username, dataobj.contact);
     }
     put(data) {
-        return this.db.put(username, contact);
+        let dataobj= JSON.parse(data);
+        return this.db.put(dataobj.username, dataobj.contact);
     }
     del(data) {
-        return this.db.delete(username,contactname);
+        let dataobj= JSON.parse(data);
+        return this.db.delete(dataobj.username,dataobj.phone);
     }     
 }
 
