@@ -5,6 +5,8 @@ class Network{
         this.userServer = new UsersServer();
         this.contactsServer = new ContactsServer();
     }
+
+    
 }
 
 module.exports= Network;

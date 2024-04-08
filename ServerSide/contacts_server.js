@@ -5,21 +5,21 @@ class ContactsServer{
         this.db= new ContactsDB();
     }
 
-    receiveRequest(request,phoneNumber=null,data=null){
+    processRequest(request,username,data=null){
         if(request=== "GETALL"){
-            return this.getAll();
+            return this.getAll(username);
         }
         else if(request=== "GET"){
-            return this.get(phoneNumber);
+            return this.get(username,data);
         }
         else if(request=== "POST"){
-            return this.post(phoneNumber,data);
+            return this.post(username,data);
         }
         else if(request=== "PUT"){
-            return this.put(phoneNumber,data);
+            return this.put(username,data);
         }
         else if(request=== "DELETE"){
-            return this.del(phoneNumber);
+            return this.del(username,data);
         }
         else{
             alert("wrong request : "+ request)
