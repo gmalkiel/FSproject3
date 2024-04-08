@@ -23,7 +23,7 @@ class UsersServer{
 
     get(data) {
         let user = JSON.parse(data);
-        return this.db.getUser(user.username);
+        return this.db.getUser(user.UserName);
     }
     getAll() {
         return this.db.getUsers();

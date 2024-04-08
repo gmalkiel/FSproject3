@@ -29,23 +29,23 @@ class ContactsServer{
 
     get(data) {
         let dataobj= JSON.parse(data);
-        return this.db.get(dataobj.username,dataobj.phone);
+        return this.db.get(dataobj.UserName,dataobj.contactName);
     }
     getAll(data) {
         let user= JSON.parse(data);
-        return this.db.getAll(user.username);
+        return this.db.getAll(user.UserName);
     }
     post(data){
         let dataobj= JSON.parse(data);
-        return this.db.post(dataobj.username, dataobj.contact);
+        return this.db.post(dataobj.UserName, dataobj.contact);
     }
     put(data) {
         let dataobj= JSON.parse(data);
-        return this.db.put(dataobj.username, dataobj.contact);
+        return this.db.put(dataobj.UserName, dataobj.contact);
     }
     del(data) {
         let dataobj= JSON.parse(data);
-        return this.db.delete(dataobj.username,dataobj.phone);
+        return this.db.delete(dataobj.UserName,dataobj.contact);
     }     
 }
 

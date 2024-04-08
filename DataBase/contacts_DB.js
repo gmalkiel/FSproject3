@@ -6,9 +6,9 @@ class ContactsDB{
         this.CONTACT_KEY = "contacts";
     }
 
-    get(username,phone) {
+    get(username,name) {
         const contacts= getUserContacts(username);
-        return contacts.find(contact => contact.phone === phone);
+        return contacts.find(contact => contact.name === name);
     }
     getAll(username) {
         return getUserContacts(username);
@@ -35,9 +35,9 @@ class ContactsDB{
         return contacts;
 
     }
-    delete(username,phone) {
+    delete(username,contact) {
         let contacts= getUserContacts(username);
-        contacts.filter(contact=> contact.phone !== phone)
+        contacts.filter(cont=> contact.phone !== cont.phone)
         const userContacts= new UserContacts(user,contacts);
         saveUserContactsToLocalStorage(userContacts);
         return contacts;
@@ -61,7 +61,7 @@ function getContactsFromLocalStorage() {
   }
 
   function saveUserContactsToLocalStorage(usercontacts){
-    const all_contacts= getContactsFromLocalStorage();
+    let all_contacts= getContactsFromLocalStorage();
     const user_index= all_contacts.findIndex(user => user.username === usercontacts.username);
     if(user_index===-1){
         all_contacts.push(usercontacts);
@@ -72,13 +72,7 @@ function getContactsFromLocalStorage() {
     saveContactsToLocalStorage(all_contacts);
   }
 
-  class Contact{
-    constructor(name, phone){
-        this.name= name;
-        this.phone= phone;
-    }
-  }
-
+  
   class UserContacts{
     constructor(username, contacts=[]){
         this.username= username;

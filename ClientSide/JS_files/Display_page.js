@@ -26,7 +26,7 @@ const app = {
             if(signinFunction()){
                 window.location.href='#data';
                 var fajax=new FAJAX();
-                var userNJason = {username:user};
+                var userNJason = {UserName:user};
                 fajax.create_request("GETCONTACTS", JSON.stringify(userNJason));
                 fajax.send(printContacts);
             }
@@ -38,7 +38,7 @@ const app = {
             if(signupFunction()){
                 window.location.href='#data';
                 var fajax=new FAJAX();
-                var userNJason = {username:user};
+                var userNJason = {UserName:user};
                 fajax.create_request("GETCONTACTS", JSON.stringify(userNJason));
                 fajax.send(printContacts);
             }

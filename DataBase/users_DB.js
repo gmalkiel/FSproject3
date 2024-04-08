@@ -10,7 +10,7 @@ class UsersDB{
 
     getUser(username) {
         const users = getUsersFromLocalStorage();
-        return users.find(user => user.username === username);
+        return users.find(user => user.UserName === username);
     }
 
     addUser(newUser){
