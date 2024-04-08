@@ -28,7 +28,7 @@ const app = {
                 return;
             }
         }
-        else if (myPage === "signup") {
+        else if (myPage === "signup" && currentPage ==="data") {
             if(signupFunction()){
                 window.location.href='#data';
             }
@@ -86,8 +86,12 @@ function signupFunction() {
     confirmPasswordMessage.innerHTML = '';
 
     // Get stored data from local storage
+    /*var fajax=new FAJAX();
+    fajax.create_request("GETUSERS");
+    fajax.send();*/
     const storedDataArray = Object.values(localStorage);
     const storeData = localStorage.getItem(password);
+
     const today = new Date();
     const age = today.getFullYear() - dob.getFullYear();
     var flag = true;
@@ -165,14 +169,15 @@ function saveToLocalStorage(username, dob, email, phone, password) {
     var uph = phone;
     var upas = password;
     var UserData = {
+        UserPassword: upas,
         UserNamen: un,
         DateOfBirth: udob,
         UserEmail: uem,
-        UserPhone: uph,
-        LastSignIn: new Date().toISOString(),
-        FirstGHighestScore: 0,
-        SecondGHighestScore: 0,
+        UserPhone: uph
     };
+    var fajax=new FAJAX();
+    fajax.create_request("POSTUSER",[UserData]);
+    fajax.send();
 }
 
 let wrongPasswordAttempts = 0;
@@ -197,7 +202,11 @@ function signinFunction() {
     userNameMessage.innerHTML = '';
 
     // Get stored data from local storage
-    const storedPassword = localStorage.getItem(passwordInput.value);
+    reqData = [usernameInput.value, passwordInput.value]
+    var fajax=new FAJAX();
+    fajax.create_request("GETUSER",reqData);
+    fajax.send();
+    //const storedPassword = localStorage.getItem(passwordInput.value);
 
     // Data validation 
     if (storedPassword) {
@@ -205,19 +214,21 @@ function signinFunction() {
 
         // Check if the entered username and password match
         if (userd.UserNamen === usernameInput.value) {
-            userd.LastSignIn = new Date().toISOString();
-            var updatedData = JSON.stringify(userd);
-            localStorage.setItem(passwordInput.value, updatedData);
+            //userd.LastSignIn = new Date().toISOString();
+            //var updatedData = JSON.stringify(userd);
+            //localStorage.setItem(passwordInput.value, updatedData);
             resultDiv.innerHTML = 'Signin successful!';
+            //return true;
         }
         else {
             userNameMessage.innerHTML = 'The username and password do not match.';
         }
     }
     else {
-        wrongPasswordAttempts++;
-
-        if (wrongPasswordAttempts >= 1) {
+        if(usernameInput.value != "" && passwordInput.value != ""){
+            wrongPasswordAttempts++;
+        }
+        if (wrongPasswordAttempts >= 3) {
             usernameInput.disabled = true;
             passwordInput.disabled = true;
             const blockDuration = blockDurationMultiplier * wrongPasswordAttempts;
