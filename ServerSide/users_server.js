@@ -5,12 +5,12 @@ class UsersServer{
         this.db= new UsersDB();
     }
 
-    processRequest(request,username,data=null){
+    processRequest(request, data=null){
         if(request=== "GETUSERS"){
             return this.getAll();
         }
         else if(request=== "GETUSER"){
-            return this.get(username);
+            return this.get(data);
         }
         else if(request=== "POSTUSER"){
             return this.post(data);
@@ -21,13 +21,15 @@ class UsersServer{
         }  
     }
 
-    get(username) {
-        return this.db.getUser(username);
+    get(data) {
+        let user = JSON.parse(data);
+        return this.db.getUser(user.username);
     }
     getAll() {
         return this.db.getUsers();
     }
-    post(user){
+    post(data){
+        let user= JSON.parse(data);
         this.db.addUser(user);
     }    
 }

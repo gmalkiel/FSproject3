@@ -34,13 +34,13 @@ class ContactsServer{
         return this.db.getAll(username);
     }
     post(username, contact){
-        this.db.post(username, contact);
+        return this.db.post(username, contact);
     }
     put(username, contact) {
-        this.db.put(username, contact);
+        return this.db.put(username, contact);
     }
     del(username,contactname) {
-        this.db.delete(username,contactname);
+        return this.db.delete(username,contactname);
     }     
 }
 
