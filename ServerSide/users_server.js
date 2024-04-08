@@ -5,3 +5,5 @@ class UsersServer{
         this.db= new UsersDB();
     }
 }
+
+module.exports= UsersServer;
