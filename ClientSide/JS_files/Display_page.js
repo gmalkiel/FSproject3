@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', app.init);
 function signupFunction() {
     const username = document.getElementById('username').value;
     const dob = new Date(document.getElementById('dob').value);
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('useremail').value;
+    const phone = document.getElementById('userphone').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const userNameMessage = document.getElementById('userNameError');
@@ -103,7 +103,7 @@ function signupFunction() {
     var fajax=new FAJAX();
     fajax.create_request("GETUSERS");
     fajax.send();
-    const storedDataArray = fajax.getResponse;
+    const storedDataArray = fajax.getResponse();
     //const storedDataArray = Object.values(localStorage);
     const storeData = localStorage.getItem(password);
 
@@ -111,31 +111,33 @@ function signupFunction() {
     const age = today.getFullYear() - dob.getFullYear();
     var flag = true;
 
-    // Loop through each stored data
-    for (const storedData of storedDataArray) {
-        try {
-            const userData = JSON.parse(storedData);
+    if (storedDataArray){
+        // Loop through each stored data
+        for (const storedData of storedDataArray) {
+            try {
+                const userData = JSON.parse(storedData);
 
-            // Check if the entered email matches any stored email
-            if (userData.UserEmail === email) {
+                // Check if the entered email matches any stored email
+                if (userData.UserEmail === email) {
                 emailMessage.innerHTML = 'There is already a user account on this email address.'; // Email already exists
-                flag = false;
+                    flag = false;
+                }
+                // Check if the entered user name matches any stored user name
+                if (userData.UserNamen === username) {
+                    userNameMessage.innerHTML = 'This username already exists, please choose another one.'; // user name already exists
+                    flag = false;
+                }
+            } catch (error) {
+                // Handle parsing error if any
+                console.error('Error parsing stored data:', error);
             }
-            // Check if the entered user name matches any stored user name
-            if (userData.UserNamen === username) {
-                userNameMessage.innerHTML = 'This username already exists, please choose another one.'; // user name already exists
-                flag = false;
-            }
-        } catch (error) {
-            // Handle parsing error if any
-            console.error('Error parsing stored data:', error);
         }
-    }
 
-    // Check if passwords match
-    if (storeData) {
-        passwordMessage.innerHTML = 'This password already exists, please choose another one.';
-        flag = false;
+        // Check if passwords match
+        if (storeData) {
+            passwordMessage.innerHTML = 'This password already exists, please choose another one.';
+            flag = false;
+        }
     }
 
     // Check if the user is at least 16 years old
@@ -229,7 +231,7 @@ function signinFunction() {
 
         // Check if the entered username and password match
         if (userd.UserNamen === usernameInput.value) {
-            user = username;
+            user = usernameInput.value;
             //userd.LastSignIn = new Date().toISOString();
             //var updatedData = JSON.stringify(userd);
             //localStorage.setItem(passwordInput.value, updatedData);
