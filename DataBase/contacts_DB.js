@@ -21,7 +21,7 @@ class ContactsDB{
         const contact_index= contacts.findIndex(cont=> cont.name=== contact.name
              || cont.phone=== contact.phone);
         contacts[contact_index]= contact;
-        const userContacts= new UserContacts(user,contacts);
+        const userContacts= new UserContacts(username,contacts);
         saveUserContactsToLocalStorage(userContacts);
         return contacts;
     }
