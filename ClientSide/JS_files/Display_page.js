@@ -63,7 +63,7 @@ const app = {
             var fajax=new FAJAX();
             var contact = {name:cname,phone:cphone,email:cemail};
             var dataJason = {UserName:user,contact:contact};
-            fajax.create_request("PUT", JSON.stringify(dataJason));
+            fajax.create_request("POST", JSON.stringify(dataJason));
             fajax.send(printContacts);
             //addContact();
             window.location.href='#data';
@@ -385,7 +385,7 @@ function editContact(contact) {
     }
 }
 
-function addContact() {
+/*function addContact() {
     const cname = document.getElementById('name').value;
     const cemail = document.getElementById('email').value;
     const cphone = document.getElementById('phone').value;
@@ -394,4 +394,4 @@ function addContact() {
     var dataJason = {UserName:user,contact:contact};
     fajax.create_request("PUT", JSON.stringify(dataJason));
     fajax.send(printContacts);
-}
+}*/
