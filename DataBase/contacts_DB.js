@@ -1,15 +1,21 @@
+//Database for saving contacts for each user
 class ContactsDB{
 
     constructor(){
     }
 
+    //get contact
     get(username,name) {
         const contacts= getUserContacts(username);
         return contacts.find(contact => contact.name === name);
     }
+
+    //get all contacts
     getAll(username) {
         return getUserContacts(username);
     }
+
+    //update contact
     put(username,contact) {
         let contacts= getUserContacts(username);
         const contact_index= contacts.findIndex(cont=> cont.name=== contact.name
@@ -19,6 +25,8 @@ class ContactsDB{
         saveUserContactsToLocalStorage(userContacts);
         return contacts;
     }
+
+    //post new contact
     post(username,contact) {
         let contacts= getUserContacts(username);
         if(contacts){
@@ -32,6 +40,8 @@ class ContactsDB{
         return contacts;
 
     }
+
+    //delete contact
     delete(username,contact) {
         let contacts= getUserContacts(username);
         contacts.filter(cont=> contact.phone !== cont.phone)

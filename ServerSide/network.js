@@ -1,11 +1,13 @@
 import UsersServer from "../ServerSide/users_server.js"
 import ContactsServer from "../ServerSide/contacts_server.js"
+//A component for transferring requests from the client to the server and back
 class Network{
     constructor(){
         this.userServer = new UsersServer();
         this.contactsServer = new ContactsServer();
     }
 
+    //sending the request to the appropriate server
     sendRequest(request,data=null){
         let server;
         switch(request){
