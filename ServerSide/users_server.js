@@ -1,4 +1,4 @@
-import UsersDB from "../DataBase/users_DB";
+import UsersDB from "../DataBase/users_DB.js";
 
 class UsersServer{
     constructor(){
@@ -34,4 +34,4 @@ class UsersServer{
     }    
 }
 
-module.exports= UsersServer;
+export default UsersServer;

@@ -1,5 +1,3 @@
-const UsersDB = require("./users_DB");
-
 class ContactsDB{
 
     constructor(){
@@ -80,4 +78,4 @@ function getContactsFromLocalStorage() {
     }
   }
 
-  module.exports = ContactsDB;
+export default ContactsDB;

@@ -1,4 +1,4 @@
-//import FAJAX from "../JS_files/fAJAX";
+import FAJAX from "./fAJAX.js";
 let user = null;
 const app = {
     pages: [],

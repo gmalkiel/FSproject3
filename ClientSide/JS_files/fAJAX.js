@@ -1,4 +1,4 @@
-//import Network from "../network";
+import Network from "../../ServerSide/network.js";
 class FAJAX{
 
     constructor(){
@@ -42,5 +42,4 @@ class FAJAX{
     }
 }
 
-
-//module.exports= FAJAX; 
+export default FAJAX; 

@@ -1,4 +1,4 @@
-import ContactsDB from "../DataBase/contacts_DB";
+import ContactsDB from "../DataBase/contacts_DB.js";
 
 class ContactsServer{
     constructor(){
@@ -49,4 +49,4 @@ class ContactsServer{
     }     
 }
 
-module.exports=  ContactsServer;
+export default ContactsServer;

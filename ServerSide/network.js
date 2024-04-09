@@ -1,5 +1,5 @@
-import UsersServer from "../ServerSide/users_server"
-import ContactsServer from "../ServerSide/contacts_server"
+import UsersServer from "../ServerSide/users_server.js"
+import ContactsServer from "../ServerSide/contacts_server.js"
 class Network{
     constructor(){
         this.userServer = new UsersServer();
@@ -31,4 +31,4 @@ class Network{
 
 }
 
-module.exports= Network;
+export default Network;

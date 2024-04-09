@@ -30,4 +30,4 @@ function getUsersFromLocalStorage() {
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
   }
 
- module.exports = UsersDB;  
+export default UsersDB;  
