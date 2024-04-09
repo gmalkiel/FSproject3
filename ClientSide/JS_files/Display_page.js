@@ -290,7 +290,7 @@ function printContacts(contactList) {
         const contactName = li.querySelector('.contactName');
         contactName.addEventListener('click', () => {
             var fajax=new FAJAX();
-            var dataJason = {UserName:user,contactName:contactName}
+            var dataJason = {UserName:user,contactName:contactName.textContent}
             fajax.create_request("GETCONTACT", JSON.stringify(dataJason));
             fajax.send(showContactDetails);
             //showContactDetails(fajax.getResponse);
@@ -326,6 +326,10 @@ function showContactDetails(contact) {
     const closeButton = modal.querySelector('.close');
     closeButton.addEventListener('click', () => {
         modal.remove();
+        var fajax=new FAJAX();
+        var userNJason = {UserName:user};
+        fajax.create_request("GETCONTACTS", JSON.stringify(userNJason));
+        fajax.send(printContacts);
     });
 
     // הוספת אירוע לחיצה לכפתור עריכה
