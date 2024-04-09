@@ -1,7 +1,6 @@
 class ContactsDB{
 
     constructor(){
-        this.CONTACT_KEY = "contacts";
     }
 
     get(username,name) {
@@ -44,12 +43,12 @@ class ContactsDB{
 }
 
 function getContactsFromLocalStorage() {
-    const contactsJSON = localStorage.getItem(this.CONTACT_KEY);
+    const contactsJSON = localStorage.getItem("CONTACTS");
     return contactsJSON ? JSON.parse(contactsJSON) : [];
   }
   
   function saveContactsToLocalStorage(contacts) {
-    localStorage.setItem(this.CONTACT_KEY, JSON.stringify(contacts));
+    localStorage.setItem("CONTACTS", JSON.stringify(contacts));
   }
   
   function getUserContacts(username){
