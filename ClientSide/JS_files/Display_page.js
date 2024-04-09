@@ -292,8 +292,8 @@ function printContacts(contactList) {
             var fajax=new FAJAX();
             var dataJason = {UserName:user,contactName:contactName}
             fajax.create_request("GETCONTACT", JSON.stringify(dataJason));
-            fajax.send();
-            showContactDetails(fajax.getResponse);
+            fajax.send(showContactDetails);
+            //showContactDetails(fajax.getResponse);
         });
     });
 }

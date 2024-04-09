@@ -31,7 +31,15 @@ class FAJAX{
                 }
             }else if (callback.name=="printContacts"){
                 callback(this.response);
-            }else if (callback.name=="signinFunction"){
+            }else if (callback.name == "signinFunction"){
+                try
+                {
+                    callback(this.response);
+                }
+                catch(error){
+                    callback(this.response);
+                }
+            }else if (callback.name == "showContactDetails"){
                 try
                 {
                     callback(this.response);
