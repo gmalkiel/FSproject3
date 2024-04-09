@@ -30,7 +30,7 @@ class ContactsDB{
     post(username,contact) {
         let contacts= getUserContacts(username);
         if(contacts){
-            cotacts.push(contact);
+            contacts.push(contact);
         }
         else{
             contacts=[contact];
