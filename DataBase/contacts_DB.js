@@ -35,7 +35,7 @@ class ContactsDB{
         else{
             contacts=[contact];
         }
-        const userContacts= new UserContacts(user,contacts);
+        const userContacts= new UserContacts(username,contacts);
         saveUserContactsToLocalStorage(userContacts);
         return contacts;
 
