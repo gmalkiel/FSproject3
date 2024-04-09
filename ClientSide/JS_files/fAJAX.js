@@ -21,7 +21,7 @@ class FAJAX{
             console.log("2 fajax send");
             this.response= this.network.sendRequest(this.request,this.data);
             console.log("10 fajax return"+ " "+this.response);
-            if (callback==printContacts){
+            if (callback.name=="printContacts"){
                 try
                 {
                     JSON.parse(this.response);
