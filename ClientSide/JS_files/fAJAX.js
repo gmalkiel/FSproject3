@@ -21,17 +21,24 @@ class FAJAX{
             console.log("2 fajax send");
             this.response= this.network.sendRequest(this.request,this.data);
             console.log("10 fajax return"+ " "+this.response);
-            if (callback.name=="printContacts"){
+            if (callback.name=="signupFunction"){
                 try
                 {
-                    JSON.parse(this.response);
-                    callback(JSON.parse(this.response));
+                    callback(this.response);
                 }
                 catch(error){
                     callback(this.response);
                 }
-            }else if (callback==RemoveTemplate){
-                callback()
+            }else if (callback.name=="printContacts"){
+                callback(this.response);
+            }else if (callback.name=="signinFunction"){
+                try
+                {
+                    callback(this.response);
+                }
+                catch(error){
+                    callback(this.response);
+                }
             }
         },1000)
     }

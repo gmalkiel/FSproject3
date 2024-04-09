@@ -23,7 +23,13 @@ const app = {
 
         //let currentPage = ev.target.getAttribute('data-target');
         if (myPage === "signin") {
-            if(signinFunction()){
+            // Get stored data from local storage
+            const usernameInput = document.getElementById('usern');
+            var dataJason = {UserName:usernameInput.value}
+            var fajax=new FAJAX();
+            fajax.create_request("GETUSER",JSON.stringify(dataJason));
+            fajax.send(signinFunction);
+            if(user){
                 window.location.href='#data';
                 var fajax=new FAJAX();
                 var userNJason = {UserName:user};
@@ -35,7 +41,11 @@ const app = {
             }
         }
         else if (myPage === "signup" && currentPage ==="data") {
-            if(signupFunction()){
+            // Get stored data from local storage
+            var fajax=new FAJAX();
+            fajax.create_request("GETUSERS");
+            fajax.send(signupFunction);
+            if(user){
                 window.location.href='#data';
                 var fajax=new FAJAX();
                 var userNJason = {UserName:user};
@@ -46,8 +56,16 @@ const app = {
                 return;
             }
         }
-        if(myPage == "addcontact"){
-            addContact();
+        else if(myPage == "addcontact"){
+            const cname = document.getElementById('name').value;
+            const cemail = document.getElementById('email').value;
+            const cphone = document.getElementById('phone').value;
+            var fajax=new FAJAX();
+            var contact = {name:cname,phone:cphone,email:cemail};
+            var dataJason = {UserName:user,contact:contact};
+            fajax.create_request("POST", JSON.stringify(dataJason));
+            fajax.send(printContacts);
+            //addContact();
             window.location.href='#data';
         }
         document.querySelector('.active').classList.remove('active');
@@ -78,7 +96,8 @@ const app = {
 
 document.addEventListener('DOMContentLoaded', app.init);
 
-function signupFunction() {
+function signupFunction(storedDataArray) {
+    
     const username = document.getElementById('username').value;
     const dob = new Date(document.getElementById('dob').value);
     const email = document.getElementById('useremail').value;
@@ -98,24 +117,18 @@ function signupFunction() {
     emailMessage.innerHTML = '';
     phoneMessage.innerHTML = '';
     confirmPasswordMessage.innerHTML = '';
-
-    // Get stored data from local storage
-    var fajax=new FAJAX();
-    fajax.create_request("GETUSERS");
-    fajax.send();
-    const storedDataArray = fajax.getResponse();
-    //const storedDataArray = Object.values(localStorage);
-    const storeData = localStorage.getItem(password);
+    //const storedData = Object.values(localStorage);
 
     const today = new Date();
     const age = today.getFullYear() - dob.getFullYear();
     var flag = true;
+    //const storedDataArray = fajax.getResponse();
 
     if (storedDataArray){
         // Loop through each stored data
-        for (const storedData of storedDataArray) {
+        for (const userData of storedDataArray) {
             try {
-                const userData = JSON.parse(storedData);
+                //const userData = JSON.parse(storedData);
 
                 // Check if the entered email matches any stored email
                 if (userData.UserEmail === email) {
@@ -127,16 +140,15 @@ function signupFunction() {
                     userNameMessage.innerHTML = 'This username already exists, please choose another one.'; // user name already exists
                     flag = false;
                 }
+                // Check if passwords match
+                if (userData.UserPassword === password) {
+                    passwordMessage.innerHTML = 'This password already exists, please choose another one.';
+                    flag = false;
+                }
             } catch (error) {
                 // Handle parsing error if any
                 console.error('Error parsing stored data:', error);
             }
-        }
-
-        // Check if passwords match
-        if (storeData) {
-            passwordMessage.innerHTML = 'This password already exists, please choose another one.';
-            flag = false;
         }
     }
 
@@ -180,11 +192,6 @@ function signupFunction() {
     return flag;
 }
 function saveToLocalStorage(username, dob, email, phone, password) {
-    /*var un = username;
-    var udob = dob;
-    var uem = email;
-    var uph = phone;
-    var upas = password;*/
     var UserData = {
         UserPassword: password,
         UserName: username,
@@ -201,7 +208,7 @@ let wrongPasswordAttempts = 0;
 let blockedTimeRemaining = 0;
 const blockDurationMultiplier = 10;
 
-function signinFunction() {
+function signinFunction(userelement) {
     const usernameInput = document.getElementById('usern');
     const passwordInput = document.getElementById('passw');
     const resultDiv = document.getElementById('result');
@@ -219,22 +226,18 @@ function signinFunction() {
     userNameMessage.innerHTML = '';
 
     // Get stored data from local storage
-    var dataJason = {UserName:usernameInput.value}
-    var fajax=new FAJAX();
-    fajax.create_request("GETUSER",JSON.stringify(dataJason));
-    fajax.send();
+    //var dataJason = {UserName:usernameInput.value}
+    //var fajax=new FAJAX();
+    //fajax.create_request("GETUSER",JSON.stringify(dataJason));
+    //fajax.send();
     //const storedPassword = localStorage.getItem(passwordInput.value);
 
     // Data validation 
-    if (storedPassword) {
-        const userd = JSON.parse(storedPassword);
+    if (userelement) {
 
         // Check if the entered username and password match
-        if (userd.UserNamen === usernameInput.value) {
+        if (userelement.UserPassword === passwordInput.value) {
             user = usernameInput.value;
-            //userd.LastSignIn = new Date().toISOString();
-            //var updatedData = JSON.stringify(userd);
-            //localStorage.setItem(passwordInput.value, updatedData);
             resultDiv.innerHTML = 'Signin successful!';
             //return true;
         }
@@ -382,7 +385,7 @@ function editContact(contact) {
     }
 }
 
-function addContact() {
+/*function addContact() {
     const cname = document.getElementById('name').value;
     const cemail = document.getElementById('email').value;
     const cphone = document.getElementById('phone').value;
@@ -391,4 +394,4 @@ function addContact() {
     var dataJason = {UserName:user,contact:contact};
     fajax.create_request("PUT", JSON.stringify(dataJason));
     fajax.send(printContacts);
-}
+}*/
