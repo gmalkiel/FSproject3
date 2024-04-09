@@ -224,14 +224,6 @@ function signinFunction(userelement) {
 
     passwordMessage.innerHTML = '';
     userNameMessage.innerHTML = '';
-
-    // Get stored data from local storage
-    //var dataJason = {UserName:usernameInput.value}
-    //var fajax=new FAJAX();
-    //fajax.create_request("GETUSER",JSON.stringify(dataJason));
-    //fajax.send();
-    //const storedPassword = localStorage.getItem(passwordInput.value);
-
     // Data validation 
     if (userelement) {
 
@@ -291,7 +283,6 @@ function printContacts(contactList) {
 
         // הוספת אירוע לחיצה למחיקת איש הקשר
         deleteButton.addEventListener('click', () => {
-            //const phoneNumber = contact.phone;
             deleteContact(contact);
         });
 
@@ -314,11 +305,6 @@ function deleteContact(contact) {
     var dataJason = {UserName:user,contact:contact}
     fajax.create_request("DELETE", JSON.stringify(dataJason));
     fajax.send(printContacts);
-    /*const index = contacts.findIndex(contact => contact.phone === phoneNumber);
-    if (index !== -1) {
-        contacts.splice(index, 1);
-        printContacts(contacts); // רענון הרשימה לאחר המחיקה
-    }*/
 }
 
 // פונקציה להצגת חלון מוקטן עם פרטי איש קשר ואפשרות לעריכתם
