@@ -17,11 +17,9 @@ const app = {
     },
     nav: function(ev){
         ev.preventDefault();
-        //let currentPage = window.location.href;
         let currentPage = ev.target.getAttribute('data-target');
         let myPage = window.location.hash.slice(1);
 
-        //let currentPage = ev.target.getAttribute('data-target');
         if (myPage === "signin") {
             // Get stored data from local storage
             const usernameInput = document.getElementById('usern');
@@ -65,7 +63,6 @@ const app = {
             var dataJason = {UserName:user,contact:contact};
             fajax.create_request("POST", JSON.stringify(dataJason));
             fajax.send(printContacts);
-            //addContact();
             window.location.href='#data';
         }
         document.querySelector('.active').classList.remove('active');
@@ -117,19 +114,15 @@ function signupFunction(storedDataArray) {
     emailMessage.innerHTML = '';
     phoneMessage.innerHTML = '';
     confirmPasswordMessage.innerHTML = '';
-    //const storedData = Object.values(localStorage);
 
     const today = new Date();
     const age = today.getFullYear() - dob.getFullYear();
     var flag = true;
-    //const storedDataArray = fajax.getResponse();
 
     if (storedDataArray){
         // Loop through each stored data
         for (const userData of storedDataArray) {
             try {
-                //const userData = JSON.parse(storedData);
-
                 // Check if the entered email matches any stored email
                 if (userData.UserEmail === email) {
                 emailMessage.innerHTML = 'There is already a user account on this email address.'; // Email already exists
@@ -231,7 +224,6 @@ function signinFunction(userelement) {
         if (userelement.UserPassword === passwordInput.value) {
             user = usernameInput.value;
             resultDiv.innerHTML = 'Signin successful!';
-            //return true;
         }
         else {
             userNameMessage.innerHTML = 'The username and password do not match.';
@@ -266,7 +258,40 @@ function signinFunction(userelement) {
     }
 }
 
+function printContacts(contactList) {
+    const contactListElement = document.getElementById('contactList');
+    // Clear the contact list before printing
+    contactListElement.innerHTML = '';
+
+    // Iterate through each contact in the list, print name and delete button
+    contactList.forEach(contact => {
+        const li = document.createElement('li');
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.classList.add('deleteButton'); // Add this line to add the deleteButton class
+        li.innerHTML = `<span class="contactName">${contact.name}</span>`;
+        li.appendChild(deleteButton);
+        contactListElement.appendChild(li);
+
+        // Add click event for deleting the contact
+        deleteButton.addEventListener('click', () => {
+            deleteContact(contact);
+        });
+
+        // Add click event to navigate to the contact details page
+        const contactName = li.querySelector('.contactName');
+        contactName.addEventListener('click', () => {
+            var fajax = new FAJAX();
+            var dataJason = { UserName: user, contactName: contactName.textContent }
+            fajax.create_request("GETCONTACT", JSON.stringify(dataJason));
+            fajax.send(showContactDetails);
+        });
+    });
+}
+
+
 // פונקציה להדפסת רשימת אנשי הקשר לעמוד HTML
+/*
 function printContacts(contactList) {
     const contactListElement = document.getElementById('contactList');
     // ניקוון רשימת הקשרים לפני ההדפסה
@@ -293,10 +318,9 @@ function printContacts(contactList) {
             var dataJason = {UserName:user,contactName:contactName.textContent}
             fajax.create_request("GETCONTACT", JSON.stringify(dataJason));
             fajax.send(showContactDetails);
-            //showContactDetails(fajax.getResponse);
         });
     });
-}
+}*/
 
 
 // פונקציה למחיקת איש קשר מהרשימה
@@ -375,13 +399,3 @@ function editContact(contact) {
     }
 }
 
-/*function addContact() {
-    const cname = document.getElementById('name').value;
-    const cemail = document.getElementById('email').value;
-    const cphone = document.getElementById('phone').value;
-    var fajax=new FAJAX();
-    var contact = {name:cname,phone:cphone,email:cemail};
-    var dataJason = {UserName:user,contact:contact};
-    fajax.create_request("PUT", JSON.stringify(dataJason));
-    fajax.send(printContacts);
-}*/

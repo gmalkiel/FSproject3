@@ -22,31 +22,13 @@ class FAJAX{
             this.response= this.network.sendRequest(this.request,this.data);
             console.log("10 fajax return"+ " "+this.response);
             if (callback.name=="signupFunction"){
-                try
-                {
-                    callback(this.response);
-                }
-                catch(error){
-                    callback(this.response);
-                }
+                callback(this.response);
             }else if (callback.name=="printContacts"){
                 callback(this.response);
             }else if (callback.name == "signinFunction"){
-                try
-                {
-                    callback(this.response);
-                }
-                catch(error){
-                    callback(this.response);
-                }
+                callback(this.response);
             }else if (callback.name == "showContactDetails"){
-                try
-                {
-                    callback(this.response);
-                }
-                catch(error){
-                    callback(this.response);
-                }
+                callback(this.response);
             }
         },1000)
     }
