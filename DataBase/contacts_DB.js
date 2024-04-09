@@ -44,7 +44,7 @@ class ContactsDB{
     //delete contact
     delete(username,contact) {
         let contacts= getUserContacts(username);
-        contacts.filter(cont=> contact.phone !== cont.phone)
+        contacts= contacts.filter(cont=> contact.phone !== cont.phone);
         const userContacts= new UserContacts(username,contacts);
         saveUserContactsToLocalStorage(userContacts);
         return contacts;
