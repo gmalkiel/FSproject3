@@ -44,12 +44,12 @@ class ContactsDB{
 }
 
 function getContactsFromLocalStorage() {
-    const contactsJSON = localStorage.getItem(CONTACT_KEY);
+    const contactsJSON = localStorage.getItem(this.CONTACT_KEY);
     return contactsJSON ? JSON.parse(contactsJSON) : [];
   }
   
   function saveContactsToLocalStorage(contacts) {
-    localStorage.setItem(CONTACT_KEY, JSON.stringify(contacts));
+    localStorage.setItem(this.CONTACT_KEY, JSON.stringify(contacts));
   }
   
   function getUserContacts(username){

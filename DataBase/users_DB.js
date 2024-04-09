@@ -22,12 +22,12 @@ class UsersDB{
 }
 
 function getUsersFromLocalStorage() {
-    const usersJSON = localStorage.getItem(USERS_KEY);
+    const usersJSON = localStorage.getItem(this.USERS_KEY);
     return usersJSON ? JSON.parse(usersJSON) : [];
   }
   
   function saveUsersToLocalStorage(users) {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
   }
 
 export default UsersDB;  
